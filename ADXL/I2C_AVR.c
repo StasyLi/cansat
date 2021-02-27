@@ -2,21 +2,21 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-//Включение шины
+//Г‚ГЄГ«ГѕГ·ГҐГ­ГЁГҐ ГёГЁГ­Г»
 void I2CInit(uint16_t CPU_F, uint16_t SCL_F){
-	//Включение шины
+	//Г‚ГЄГ«ГѕГ·ГҐГ­ГЁГҐ ГёГЁГ­Г»
 	TWBR = (((CPU_F)/(SCL_F)-16)/2);
 	TWSR = 0;
-	//Включение шины
+	//Г‚ГЄГ«ГѕГ·ГҐГ­ГЁГҐ ГёГЁГ­Г»
 	TWCR |= (1<<TWEN);
 }
 
-//Остановка работы
+//ГЋГ±ГІГ Г­Г®ГўГЄГ  Г°Г ГЎГ®ГІГ»
 void I2CClose(){
 	TWCR = (~(1<<TWEN));
 }
 
-//Cтарт работы
+//CГІГ Г°ГІ Г°Г ГЎГ®ГІГ»
 void I2CStart(){
 	TWCR = (1<<TWINT)|(1<<TWEN)|(1<<TWSTA);
 	while(!(TWCR & (1<<TWINT)));
@@ -61,12 +61,12 @@ uint8_t I2ReadByte(uint8_t *data, uint8_t ack){
 }
 
 void I2CWriteRegister(uint8_t addr, uint8_t reg, uint8_t value){
-	I2CStart(); // Cтартовые условия
-	I2WriteByte(addr<<1); //Посылаем адресс устройства(1 байт)
-	I2WriteByte(reg); //Посылаем адресс регистра
-	I2WriteByte(value);//Посылаем значение
-	_delay_ms(10);//Ждём 10 секунд
-	I2CStop(); //Остановка
+	I2CStart(); // CГІГ Г°ГІГ®ГўГ»ГҐ ГіГ±Г«Г®ГўГЁГї
+	I2WriteByte(addr<<1); //ГЏГ®Г±Г»Г«Г ГҐГ¬ Г Г¤Г°ГҐГ±Г± ГіГ±ГІГ°Г®Г©Г±ГІГўГ (1 ГЎГ Г©ГІ)
+	I2WriteByte(reg); //ГЏГ®Г±Г»Г«Г ГҐГ¬ Г Г¤Г°ГҐГ±Г± Г°ГҐГЈГЁГ±ГІГ°Г 
+	I2WriteByte(value);//ГЏГ®Г±Г»Г«Г ГҐГ¬ Г§Г­Г Г·ГҐГ­ГЁГҐ
+	_delay_ms(10);//Г†Г¤ВёГ¬ 10 Г±ГҐГЄГіГ­Г¤
+	I2CStop(); //ГЋГ±ГІГ Г­Г®ГўГЄГ 
 	_delay_ms(6);
 }
 
@@ -77,7 +77,7 @@ void I2CReadBytes(uint8_t dev_addr, uint8_t register_addr, uint8_t num, uint8_t 
 	I2WriteByte(register_addr<<1);
 
 	I2CStart();
-	I2WriteByte((dev_addr<<1)+1);//Устройство передаёт данные
+	I2WriteByte((dev_addr<<1)+1);//Г“Г±ГІГ°Г®Г©Г±ГІГўГ® ГЇГҐГ°ГҐГ¤Г ВёГІ Г¤Г Г­Г­Г»ГҐ
 
 	for (uint8_t i = 0; i < num; i++){
 		I2ReadByte(buffer,1);
