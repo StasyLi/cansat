@@ -22,7 +22,6 @@ static int8_t USART_PutChar( char c, FILE *stream)
 	return 0;
 }
 
-//Р�РЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃРµРЅСЃРѕСЂРѕРІ
 void Sensors_Init()
 {
 	//UART_Init(0, 9600, 0)
