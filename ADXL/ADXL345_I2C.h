@@ -2,7 +2,7 @@
 #define ADXL345_I2C_H_
 #include <stdint.h>
 
-#define ADXL345_DEFAULT_ADDRESS 0x1d //Нога SDO на 1
+#define ADXL345_DEFAULT_ADDRESS 0x1d //ГЌГ®ГЈГ  SDO Г­Г  1
 #define ADXL345_ALTERNATIVE_ADDRESS 0x53
 
 
