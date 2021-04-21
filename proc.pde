@@ -1,12 +1,12 @@
 void serialReset() {
   serialConnAttempt = true;
   serialConnected = correctConnection = false;
-  int maxAttempts = (isBuilt)? 1:1;
+  int maxAttempts = (isBuilt)? 1:1;  //что такое isBuilt ?
   print(Serial.list());
   
-  if (isBuilt) {
-    BTcomPort.clear();
-    BTcomPort.stop();
+  if (isBuilt) { 
+    WcomPort.clear(); //вот тут получается не блютуз-компорт нужен, а просто компорт? Потому что проводками в компьютер вставляем
+    WcomPort.stop();
   }
   
   for (int attempt = 0; attempt < maxAttempts; ++attempt) {
@@ -22,25 +22,25 @@ void serialReset() {
   serialConnAttempt = false;
 }
 
-void serialEvent(Serial BTcomPort) {
-  String inputData = BTcomPort.readStringUntil(linefeed);
+void serialEvent(Serial WcomPort) { // и тут заменить порт
+  String inputData = BTcomPort.readStringUntil(linefeed); // и тут заменить порт
   
   if (inputData != null) {
     if (!correctConnection) correctConnection = true;
-    inputData = trim(inputData);
-    sensorsData = float(split(inputData, ','));
+    inputData = trim(inputData); 
+    sensorsData = float(split(inputData, ',')); // во-во-во, тут мы делим по запятым то, что прописывали в ардуине с запятыми
   }
 }
 void serialConnect(boolean debug) {
   boolean lSerialConnected = serialConnected;
   try {
     try {
-      BTcomPort = null;
-      BTcomPort = new Serial(this, Serial.list()[0], 57600);
+      WcomPort = null; // и тут заменить порт
+      WcomPort = new Serial(this, Serial.list()[0], 57600); // тут заменить название порта и частоту, наверное
       lSerialConnected = true;
     }
     catch (RuntimeException ex) {
-      BTcomPort = null;
+      WcomPort = null; // и тут заменить порт
       lSerialConnected = false;
       if (debug) {
       print("COM Port busy >> ");
@@ -49,7 +49,7 @@ void serialConnect(boolean debug) {
     }
   }
   catch (ArrayIndexOutOfBoundsException ex) {
-    BTcomPort = null;
+    WcomPort = null;
     lSerialConnected = false;
     if (debug) {
       print("No serial_ports available found >> ");
