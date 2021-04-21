@@ -727,40 +727,41 @@ void loop()
   for (int iter = 0; iter < SYSTEM; ++iter) serialParcel(systemData[iter]);
   for (int iter = 0; iter < STATE; ++iter) serialParcel(stateData[iter]);
 
-  if (millis()-oledTimer > 8000) {
-    if (oledChoice == 2) oledChoice = 0;
-    else ++oledChoice;
-    oledTimer = millis();
-  }
+  // это светодиод, он нам не нужен
+//   if (millis()-oledTimer > 8000) {
+//     if (oledChoice == 2) oledChoice = 0;
+//     else ++oledChoice;
+//     oledTimer = millis();
+//   }
 
-  myOLED.clrScr();
-  myOLED.setBrightness(10);
-  myOLED.print("Robot shell ", CENTER, 4);
+//   myOLED.clrScr();
+//   myOLED.setBrightness(10);
+//   myOLED.print("Robot shell ", CENTER, 4);
 
-  if (oledChoice == 0) {
-    myOLED.print("[0] - temperature", 0, 17);
-    myOLED.print("[1] - humidity", 0, 27);
-    myOLED.print("[2] - propane/butane", 0, 37);
-    myOLED.print("[3] - household gas", 0, 47);
-    myOLED.print("[4] - carbon monoxide", 0, 57);
-  }
-  else if (oledChoice == 1) {
-    myOLED.print("[5] - total acclr", 0, 17);
-    myOLED.print("[6] - horiz acclr", 0, 27);
-    myOLED.print("[7-9] - angels XYZ", 0, 37);
-    myOLED.print("[10-16] - system UART", 0, 47);
-    myOLED.print("[17-26] - state UART", 0, 57);
-  }
-  else {
-    myOLED.print("The robot was created", CENTER, 23);
-    myOLED.print("with our sweat, blood", CENTER, 33);
-    myOLED.print("and a lot of pain", CENTER, 43);
-  }
-  myOLED.update();
+//   if (oledChoice == 0) {
+//     myOLED.print("[0] - temperature", 0, 17);
+//     myOLED.print("[1] - humidity", 0, 27);
+//     myOLED.print("[2] - propane/butane", 0, 37);
+//     myOLED.print("[3] - household gas", 0, 47);
+//     myOLED.print("[4] - carbon monoxide", 0, 57);
+//   }
+//   else if (oledChoice == 1) {
+//     myOLED.print("[5] - total acclr", 0, 17);
+//     myOLED.print("[6] - horiz acclr", 0, 27);
+//     myOLED.print("[7-9] - angels XYZ", 0, 37);
+//     myOLED.print("[10-16] - system UART", 0, 47);
+//     myOLED.print("[17-26] - state UART", 0, 57);
+//   }
+//   else {
+//     myOLED.print("The robot was created", CENTER, 23);
+//     myOLED.print("with our sweat, blood", CENTER, 33);
+//     myOLED.print("and a lot of pain", CENTER, 43);
+//   }
+//   myOLED.update();
 
-  Serial.println();
-  delay(10);
-}
+//   Serial.println();
+//   delay(10);
+// }
 
 int MPU6050_read(int start, uint8_t *buffer, int size) {
   int i, n, error;
@@ -875,5 +876,5 @@ if (clearState) for (int item = 0; item < STATE; ++item) stateData[item] = -1;
 
 void serialParcel (float content) {
   Serial.print(content, 2);
-  Serial.print(F(","));
+  Serial.print(F(",")); //что такое F ?
 }
