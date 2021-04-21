@@ -30,3 +30,33 @@ void serialEvent(Serial BTcomPort) {
     inputData = trim(inputData);
     sensorsData = float(split(inputData, ','));
   }
+
+void serialConnect(boolean debug) {
+  boolean lSerialConnected = serialConnected;
+  try {
+    try {
+      BTcomPort = null;
+      BTcomPort = new Serial(this, Serial.list()[0], 57600);
+      lSerialConnected = true;
+    }
+    catch (RuntimeException ex) {
+      BTcomPort = null;
+      lSerialConnected = false;
+      if (debug) {
+      print("COM Port busy >> ");
+      println(ex);
+      }
+    }
+  }
+  catch (ArrayIndexOutOfBoundsException ex) {
+    BTcomPort = null;
+    lSerialConnected = false;
+    if (debug) {
+      print("No serial_ports available found >> ");
+      println(ex);
+    }
+  }
+  finally {
+    serialConnected = lSerialConnected;
+  }
+}
