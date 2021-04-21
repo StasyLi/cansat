@@ -30,7 +30,7 @@ void serialEvent(Serial BTcomPort) {
     inputData = trim(inputData);
     sensorsData = float(split(inputData, ','));
   }
-
+}
 void serialConnect(boolean debug) {
   boolean lSerialConnected = serialConnected;
   try {
