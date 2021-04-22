@@ -23,7 +23,7 @@ void serialReset() {
 }
 
 void serialEvent(Serial WcomPort) { // и тут заменить порт
-  String inputData = BTcomPort.readStringUntil(linefeed); // и тут заменить порт
+  String inputData = WcomPort.readStringUntil(linefeed); // и тут заменить порт
   
   if (inputData != null) {
     if (!correctConnection) correctConnection = true;
