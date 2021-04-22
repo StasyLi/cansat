@@ -170,3 +170,6 @@ void drawCylinder(float topRadius, float bottomRadius, float tall, int sides) {
         }
         endShape();
     }
+
+//Осталось получить данные с датчиков, потом их превратить в кват.
+
