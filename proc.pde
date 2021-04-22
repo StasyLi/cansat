@@ -31,6 +31,8 @@ void serialEvent(Serial WcomPort) { // и тут заменить порт
     sensorsData = float(split(inputData, ',')); // во-во-во, тут мы делим по запятым то, что прописывали в ардуине с запятыми
   }
 }
+
+
 void serialConnect(boolean debug) {
   boolean lSerialConnected = serialConnected;
   try {
@@ -59,6 +61,74 @@ void serialConnect(boolean debug) {
   finally {
     serialConnected = lSerialConnected;
   }
+}
+
+
+void uartReceive() {
+  unsigned long timer;
+  unsigned int maxWait, loopCounter, maxLoops, multiplier;
+  int incomingInt;
+  int* currentStorage = 0;
+  word numItems, storage;
+  char incomingChar;
+  bool transmitStart;
+
+  maxWait = 100;
+  maxLoops = 4;
+  multiplier = 1;
+  loopCounter = storage = numItems = 0;
+  transmitStart = false;
+
+  timer = millis();
+  packageReceived = false;
+  while (millis() - timer < maxWait && (storage < numItems || !transmitStart)) {
+    if (uartSerial.available()) {
+      incomingChar = uartSerial.read();
+      incomingInt = (int)incomingChar;
+      //Serial.println(incomingInt);
+
+      if (incomingInt == -3) {
+        if (transmitStart) {
+          ++loopCounter;
+          if (loopCounter == maxLoops) break;
+        }
+        else transmitStart = true;
+
+        storage = 0;
+        currentStorage = systemData;
+        numItems = SYSTEM;
+
+        clearData(true, true);
+      }
+      else if (incomingInt == -2) {
+        if (transmitStart) break;
+        else transmitStart = true;
+
+        currentStorage = stateData;
+        numItems = STATE;
+
+        clearData(false, true);
+      }
+      else if (transmitStart) {
+        if (incomingInt == -1) {
+          ++storage;
+          multiplier = 1;
+        }
+        else if (incomingInt >= 0) {
+          if (currentStorage[storage] == -1) currentStorage[storage] = 0;
+          currentStorage[storage] += incomingInt * multiplier;
+
+          multiplier *= 100;
+        }
+      }
+      timer = millis();
+      packageReceived = true;
+    }
+  }
+  if (storage < numItems && transmitStart) {
+    for (int item = storage; item < numItems; ++item) currentStorage[item] = 0;
+  }
+  else if (!transmitStart) clearData(true, true);
 }
 
 //осталось сюда вставить блок с рисованием (а там используются какие-то углы, которые нужно взять откуда-то (возможно, создать кватернионы))
