@@ -22,8 +22,8 @@ void serialReset() {
   serialConnAttempt = false;
 }
 
-void serialEvent(Serial WcomPort) { // и тут заменить порт
-  String inputData = WcomPort.readStringUntil(linefeed); // и тут заменить порт
+void serialEvent(Serial WcomPort) { //считываем весь порт 
+  String inputData = WcomPort.readStringUntil(linefeed);
   
   if (inputData != null) {
     if (!correctConnection) correctConnection = true;
