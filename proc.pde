@@ -28,7 +28,8 @@ void serialEvent(Serial WcomPort) { //считываем весь порт
   if (inputData != null) {
     if (!correctConnection) correctConnection = true;
     inputData = trim(inputData); 
-    sensorsData = float(split(inputData, ',')); // во-во-во, тут мы делим по запятым то, что прописывали в ардуине с запятыми
+    sensorsData = float(split(inputData, ',')); // во-во-во, тут мы делим по запятым то, что прописывали в ардуине с запятыми.
+                                                // а sensorsData - это массив или список?
   }
 }
 
